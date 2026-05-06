@@ -9,7 +9,7 @@ class ClienteModel extends Conexion
 
     public function traerClientes()
     {
-         $sql = "select * from cliente0  " ;
+         $sql = "select * from cliente0  order by idcliente desc" ;
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
@@ -58,7 +58,14 @@ class ClienteModel extends Conexion
             $query->bindParam(':telefono',$request['telefono'],PDO::PARAM_STR, 25);
             $query->bindParam(':direccion',$request['direccion'],PDO::PARAM_STR, 25);
             $query->bindParam(':email',$request['email'],PDO::PARAM_STR, 25);
-            $query->bindParam(':email',$request['observaciones'],PDO::PARAM_STR, 25);
+            $query->bindParam(':observaciones',$request['observaciones'],PDO::PARAM_STR, 25);
+            // $query->debugDumpParams();
+            // TRUCO: Reemplazo manual para visualización
+            $visualSql = $sql;
+            foreach ($request as $key => $value) {
+                $visualSql = str_replace(':'.$key, "'$value'", $visualSql);
+            }
+            // die($visualSql);
             $query->execute();
             $this->desconectar();
             return 0;

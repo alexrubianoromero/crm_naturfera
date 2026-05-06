@@ -9,13 +9,24 @@ class SeguimientoModel extends Conexion
 
     public function traerSeguimientosIdCliente($idCliente)
     {
-         $sql = "select * from seguimientos where id_taller = '".$idCliente."' order by id desc " ;
+        $sql = "select * from seguimientos where id_taller = '".$idCliente."' order by id desc " ;
         $query = $this->connectMysql()->prepare($sql); 
         $query -> execute(); 
         $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
         $this->desconectar();
         return $results;
     }
+    public function traerCuantosSeguimientosIdCliente($idCliente)
+    {
+        $sql = "select * from seguimientos where id_taller = '".$idCliente."' order by id desc " ;
+        $query = $this->connectMysql()->prepare($sql); 
+        $query -> execute(); 
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC); 
+        $total = $query->rowCount();
+        $this->desconectar();
+        return $total;
+    }
+
     // public function traerClientesFiltroNombre($nombre)
     // {
     //      $sql = "select * from cliente0 where nombre like '%".$nombre."%' " ;

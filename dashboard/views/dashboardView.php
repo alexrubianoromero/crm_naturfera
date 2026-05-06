@@ -204,21 +204,28 @@ class dashboardView
                             >
 
                         </div>
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
                             <label class="form-label small fw-bold text-muted">Sector de Interés</label>
                             <select class="form-select">
                                 <option>Humus de Lombriz</option>
                                 <option>Agricultura Rural</option>
                             </select>
-                        </div>
-                        <div class="col-md-3 d-flex gap-2">
+                        </div> -->
+                        <div class="col-md-4 d-flex gap-2">
                             <button class="btn btn-natur w-100"
                             data-bs-toggle="modal" data-bs-target="#modalFiltrar"
                             ><i class="bi bi-search me-2"></i>Filtrar</button>
                             <!-- <button class="btn btn-outline-natur w-100" data-bs-toggle="modal" data-bs-target="#modalNuevo"><i class="bi bi-plus-lg me-2"></i>Nuevo</button> -->
-                            <button class="btn btn-outline-natur w-100" data-bs-toggle="modal" data-bs-target="#modalNuevoTaller">
+                            <button class="btn btn-outline-natur w-100" 
+                            data-bs-toggle="modal" data-bs-target="#modalNuevoTaller"
+                            onclick = "formularioNuevoContacto();"
+                            >
                             <i class="bi bi-plus-lg me-2"></i>Nuevo Contacto
                             </button>
+                             <button class="btn btn-warning w-100"
+                                data-bs-toggle="modal" data-bs-target="#modalAlertas"
+                                onclick="menuAlertas();"
+                            ><i class="bi bi-bell me-2"></i>Alertas</button>
                         </div>
                     </div>
                 </div>
@@ -227,7 +234,7 @@ class dashboardView
                 <?php  
                     $clientes =    $this->clienteModel->traerClientes();
                     $this->tablaResultadosOrdenes($clientes);  
-                    $this->modalFiltrar();  
+               
                     ?>
                 </div>
                
@@ -252,9 +259,46 @@ class dashboardView
                         </div>
 
                         <div class="modal-body p-4" id="modalBodyContactos">
-                            <!-- <form action="procesar_taller.php" method="POST"> -->
-                                <div class="mb-3">
-                                    <label class="form-label small fw-bold text-muted">Nombre del Contacto</label>
+                            <?php  $this->formularioNuevoContacto();  ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modalDetalleTaller" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 20px; border: none;">
+                        <div id="contenidoDetalle">
+                            <div class="p-5 text-center">
+                                <div class="spinner-border text-secondary" role="status"></div>
+                                <p class="mt-2 text-muted">Cargando expediente...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php  
+                $this->ventanaModelCodigoSeguimiento();
+                $this->modalAlertas();
+                $this->formularioNuevoContacto();
+             ?>
+    
+        </body>
+        </html>
+        <script src="/crm_naturfera/dashboard/js/dashboard.js"></script>
+        <script src="/crm_naturfera/clientes/js/clientes.js"></script>
+        <script src="/crm_naturfera/alertas/js/alertas.js"></script>
+        <script>
+      
+        <?php
+    }
+
+    public function formularioNuevoContacto()
+    {
+        ?>
+                <div class="mb-3">
+                                <label class="form-label small fw-bold text-muted">Nombre del Contacto</label>
                                     <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej:  Jose Maria Garcia" required>
                                 </div>
 
@@ -301,37 +345,51 @@ class dashboardView
                                         <i class="bi bi-check-circle me-2"></i>Guardar en CRM
                                     </button>
                                 </div>
-                            <!-- </form> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="modalDetalleTaller" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content" style="border-radius: 20px; border: none;">
-                        <div id="contenidoDetalle">
-                            <div class="p-5 text-center">
-                                <div class="spinner-border text-secondary" role="status"></div>
-                                <p class="mt-2 text-muted">Cargando expediente...</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <?php  
-                $this->ventanaModelCodigoSeguimiento();
-             ?>
-
-        </body>
-        </html>
-        <script src="/crm_naturfera/dashboard/js/dashboard.js"></script>
-        <script src="/crm_naturfera/clientes/js/clientes.js"></script>
-        <script>
-      
         <?php
     }
+
+    public function modalAlertas()
+    {
+      ?>
+      <div class="modal fade" id="modalAlertas" tabindex="-1" aria-labelledby="modalNuevoTallerLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="border-radius: 15px; border: none; overflow: hidden;">
+                        
+                        <div class="modal-header" style="background-color: var(--natur-beige); border: none;">
+                            <h5 class="modal-title fw-bold text-uppercase" id="modalNuevoTallerLabel" style="letter-spacing: 1px; font-size: 1rem;">
+                                <i class="bi bi-house-add me-2"></i>Registrar Nuevo Contacto
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                               onclick="tablaResultadosOrdenes();";
+                            ></button>
+                        </div>
+
+                        <div class="modal-body p-4" id="modalBodyAlertas">
+                           
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Nombre del Contacto</label>
+                                    <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ej:  Jose Maria Garcia" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-muted">Comentario</label>
+                                    <textarea name="observaciones" id ="observaciones" class="form-control" rows="3" placeholder="¿Qué le interesa a este cliente?"></textarea>
+                                </div>
+
+                                <div class="d-grid mt-4">
+                                    <button type="submit" class="btn btn-natur" onclick="grabarContactoCrm();">
+                                        <i class="bi bi-check-circle me-2"></i>Guardar en CRM
+                                    </button>
+                                </div>
+                  
+                        </div>
+                    </div>
+                </div>
+            </div>
+      <?php  
+    }
+
+
+
 
     public function tablaResultadosOrdenes($clientes)
     {
@@ -372,16 +430,16 @@ class dashboardView
                                          >
                                          <i class="bi bi-eye"></i>
                                          </button>
-                                         <button class="btn btn-sm btn-light border text-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
                                          </td>
                                          </tr>';
                                          
                                          
                                          }
                                          // <button onclick="verDetalle(4)" class="btn-ver" title="Ver Expediente">
-                                        //  <i class="bi bi-eye"></i>
-                                        //  </button>
-                            ?>
+                                         //  <i class="bi bi-eye"></i>
+                                         //  </button>
+                                        //  <button class="btn btn-sm btn-light border text-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                                         ?>
 
                         </tbody>
                     </table>
@@ -409,17 +467,18 @@ class dashboardView
 
             <div class="modal-footer border-0 bg-light">
                 <button type="button" class="btn btn-secondary btn-sm px-4" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-dark btn-sm px-4">Editar Contacto</button>
-            </div>
-            </div>
-        </div>
-        </div>
-        <?php
+                </div>
+                </div>
+                </div>
+                </div>
+                <?php
+                // <button type="button" class="btn btn-dark btn-sm px-4">Editar Contacto</button>
     }
 
     public function contenidoDetalleContacto($idCliente)
     {
         $infoCliente=      $this->clienteModel->traerClienteId($idCliente); 
+        $cuantosSeguimientos = $this->seguimientoModel->traerCuantosSeguimientosIdCliente($idCliente);
         ?>
         <div class="row g-3 mb-4">
                 <div class="col-md-6">
@@ -456,10 +515,24 @@ class dashboardView
 
                 <hr class="text-muted opacity-25">
 
+                  <div class="bg-light p-3 rounded">
+                    <h6 class="small fw-bold mb-2">Agregar nuevo seguimiento</h6>
+                    <form id="formNuevoSeguimiento">
+                        <div class="input-group input-group-sm mb-2">
+                            <select id="tipoGestion" class="form-select border-0 shadow-sm" style="max-width: 150px;">
+                                <option value="llamada">Llamada</option>
+                                <option value="visita">Visita</option>
+                                <option value="email">Email</option>
+                            </select>
+                            <input id="dequesehablo" type="text" class="form-control border-0 shadow-sm" placeholder="¿Qué se habló con el cliente?">
+                            <button class="btn btn-primary" type="button" onclick = "guardarSeguimientoCliente(<?php  echo $idCliente;  ?>);">Guardar</button>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h6 class="mb-0 text-dark fw-bold">Seguimientos Recientes</h6>
-                    <span class="badge bg-info text-dark rounded-pill px-3">3 Registros</span>
+                    <span class="badge bg-info text-dark rounded-pill px-3"><?php echo $cuantosSeguimientos;  ?> Registros</span>
                 </div>
                 <?php
                     $seguimientos= $this->seguimientoModel->traerSeguimientosIdCliente($idCliente);
@@ -478,20 +551,7 @@ class dashboardView
                         }
                 ?>
 
-                <div class="bg-light p-3 rounded">
-                    <h6 class="small fw-bold mb-2">Agregar nuevo seguimiento</h6>
-                    <form id="formNuevoSeguimiento">
-                        <div class="input-group input-group-sm mb-2">
-                            <select id="tipoGestion" class="form-select border-0 shadow-sm" style="max-width: 150px;">
-                                <option value="llamada">Llamada</option>
-                                <option value="visita">Visita</option>
-                                <option value="email">Email</option>
-                            </select>
-                            <input id="dequesehablo" type="text" class="form-control border-0 shadow-sm" placeholder="¿Qué se habló con el cliente?">
-                            <button class="btn btn-primary" type="button" onclick = "guardarSeguimientoCliente(<?php  echo $idCliente;  ?>);">Guardar</button>
-                        </div>
-                    </form>
-                </div>
+              
         <?php
     }
 

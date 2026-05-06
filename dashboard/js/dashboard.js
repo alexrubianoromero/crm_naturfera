@@ -20,6 +20,9 @@ function tablaResultadosOrdenes(){
         //         +'&idTractor='+idTractor
         //         +'&observaciones='+observaciones
     );
+    $('.modal-backdrop').hide(); 
+    $('body').removeClass('modal-open');
+    $('body').css('padding-right', '');
 }
 
 function tablaResultadosOrdenesFiltroNombre(){
@@ -88,6 +91,29 @@ function contenidoDetalleContacto(idCliente){
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.send("opcion=contenidoDetalleContacto"
         +'&idCliente='+idCliente
+        //         +'&idTractor='+idTractor
+        //         +'&observaciones='+observaciones
+    );
+}
+function formularioNuevoContacto(){
+
+    // var empresa = document.getElementById('empresaABuscar').value; 
+    // var idTractor = document.getElementById('idTractor').value; 
+    // var observaciones = document.getElementById('observaciones').value; 
+
+    const http=new XMLHttpRequest();
+    const url = '../dashboard/dashboard.php';
+    http.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status ==200){
+              console.log(this.responseText);
+           document.getElementById("modalBodyContactos").innerHTML  = this.responseText;
+        //    document.getElementById("modalBodyTractores").innerHTML  = 'llego al js';
+        }
+    };
+    http.open("POST",url);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.send("opcion=formularioNuevoContacto"
+        // +'&idCliente='+idCliente
         //         +'&idTractor='+idTractor
         //         +'&observaciones='+observaciones
     );

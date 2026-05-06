@@ -60,6 +60,12 @@ class dashboardController
                 $this->view->contenidoDetalleContacto($_REQUEST['idCliente']);
 
         }
+        if($_REQUEST['opcion']=='formularioNuevoContacto')
+        {
+       
+                $this->view->formularioNuevoContacto();
+
+        }
 
     }
 
